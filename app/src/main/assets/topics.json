@@ -1,0 +1,90 @@
+{
+  "topics": [
+    {
+      "id": "backend",
+      "name": "后端 & 架构",
+      "enabled": true,
+      "weight": 1.2,
+      "feeds": [
+        "https://martinfowler.com/feed.atom",
+        "https://www.allthingsdistributed.com/atom.xml",
+        "https://netflixtechblog.com/feed"
+      ],
+      "keywords": [
+        "database", "scalability", "microservice", "architecture", "distributed",
+        "system design", "backend", "api", "kafka", "latency"
+      ]
+    },
+    {
+      "id": "frontend",
+      "name": "前端 & Web",
+      "enabled": true,
+      "weight": 1.0,
+      "feeds": [
+        "https://overreacted.io/rss.xml",
+        "https://css-tricks.com/feed/",
+        "https://www.smashingmagazine.com/feed/"
+      ],
+      "keywords": [
+        "react", "javascript", "typescript", "css", "frontend", "browser", "web",
+        "vue", "ui"
+      ]
+    },
+    {
+      "id": "languages",
+      "name": "编程语言 & CS 基础",
+      "enabled": true,
+      "weight": 1.0,
+      "feeds": [
+        "https://jvns.ca/atom.xml",
+        "https://danluu.com/atom.xml"
+      ],
+      "keywords": [
+        "compiler", "algorithm", "memory", "kotlin", "rust", "python", "language",
+        "data structure", "concurrency", "debugging"
+      ]
+    },
+    {
+      "id": "ai",
+      "name": "AI 工程",
+      "enabled": true,
+      "weight": 1.0,
+      "feeds": [
+        "https://simonwillison.net/atom/everything/",
+        "https://blog.google/technology/ai/rss/"
+      ],
+      "keywords": [
+        "llm", "rag", "embedding", "machine learning", "ai", "gpt", "transformer",
+        "prompt", "model", "inference"
+      ]
+    },
+    {
+      "id": "devops",
+      "name": "DevOps & 云",
+      "enabled": true,
+      "weight": 0.9,
+      "feeds": [
+        "https://kubernetes.io/feed.xml",
+        "https://aws.amazon.com/blogs/devops/feed/"
+      ],
+      "keywords": [
+        "kubernetes", "docker", "ci/cd", "terraform", "aws", "cloud", "devops",
+        "observability", "deployment", "sre"
+      ]
+    },
+    {
+      "id": "career",
+      "name": "职业成长 & 工程实践",
+      "enabled": true,
+      "weight": 0.9,
+      "feeds": [
+        "https://newsletter.pragmaticengineer.com/feed",
+        "https://blog.codinghorror.com/rss/"
+      ],
+      "keywords": [
+        "career", "code review", "testing", "refactoring", "engineering",
+        "productivity", "team", "best practice", "clean code"
+      ]
+    }
+  ]
+}
