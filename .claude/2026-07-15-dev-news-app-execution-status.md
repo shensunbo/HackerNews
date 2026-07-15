@@ -4,7 +4,28 @@
 
 分支：`main`
 
-当前 HEAD：`af37378 feat: add reading mode and about screens`
+实现基线：`af37378 feat: add reading mode and about screens`
+
+状态记录提交：`ffc0265 docs: record current implementation status`
+
+## Context 重置后的恢复入口
+
+重置 context 后不要重新猜测进度，也不要清理工作区。按以下顺序恢复：
+
+1. 依照根目录 `AGENTS.md` 的 Required Context 顺序重读六份必需文档。
+2. 读取本文档，然后运行：
+
+   ```bash
+   git status --short
+   git log -5 --oneline --decorate
+   ```
+
+3. 继续在 `main` 上开发；用户已明确授权，不需要创建 worktree。
+4. 保留全部未提交改动；特别不要回退“其他未提交改动”一节列出的四个文件。
+5. 当前唯一实施中任务是 Task 20。先用最小 `ActivityScenarioRule<ComponentActivity>` 用例隔离测试宿主启动问题；不要立即重跑已经会挂起约 5 分钟的完整 Compose 导航用例。
+6. Task 20 通过 focused test、`assembleDebug` 和装机导航验证后才能提交；之后执行 Task 22 的全量验收。
+
+重置前已停止诊断用 Gradle/instrumentation 命令，没有需要接管的运行中会话。恢复时的真实 HEAD 以 `git log -1` 为准，因为保存本 handoff 本身会产生后续文档提交。
 
 ## 结论
 
