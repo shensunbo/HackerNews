@@ -10,4 +10,5 @@ data class Article(
     val publishedAt: Long,       // epoch millis
     val isBookmarked: Boolean = false,
     val score: Int? = null,      // HN 分数
+    val origin: ArticleOrigin = ArticleOrigin.FEED,
 )

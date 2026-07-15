@@ -8,6 +8,7 @@ import com.example.hackernews.data.local.TopicPreferencesSource
 import com.example.hackernews.data.remote.RemoteArticleSource
 import com.example.hackernews.data.remote.RemoteFetchResult
 import com.example.hackernews.domain.model.Article
+import com.example.hackernews.domain.model.ArticleOrigin
 import com.example.hackernews.domain.model.Topic
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -134,9 +135,10 @@ class FeedRepositoryTest {
             publishedAt: Long,
             isBookmarked: Boolean,
             score: Int?,
+            origin: ArticleOrigin,
         ) {
             val item = ArticleEntity(
-                id, title, url, summary, source, topicIds, publishedAt, isBookmarked, score,
+                id, title, url, summary, source, topicIds, publishedAt, isBookmarked, score, origin,
             )
             entities.value = entities.value.filterNot { it.id == id } + item
         }

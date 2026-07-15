@@ -34,7 +34,7 @@ class RssRemoteSource(
                         summary = stripHtml(item.description),
                         source = source,
                         topicIds = listOf(topic.id),
-                        publishedAt = parseRssDateMillis(item.pubDate) ?: nowMillis,
+                        publishedAt = parseRssDateMillis(item.pubDate) ?: 0L,
                         score = null,
                     )
                 }

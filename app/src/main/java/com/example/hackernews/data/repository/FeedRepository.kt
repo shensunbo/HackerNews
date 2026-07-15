@@ -67,7 +67,7 @@ class FeedRepository(
         }
         val remote = hnR + rssR
         val merged = mergeArticles(remote.articles)
-        dao.upsertPreservingBookmark(merged.map { it.toEntity() })
+        dao.upsertPreservingBookmark(merged.map { it.toEntity() }, firstSeenAt = nowMs)
         return RefreshResult(
             count = merged.size,
             failed = remote.successfulRequests == 0 && remote.failedRequests > 0,
@@ -86,5 +86,19 @@ class FeedRepository(
     override suspend fun toggleBookmark(id: String) {
         val current = dao.getById(id)?.isBookmarked ?: false
         dao.setBookmarked(id, !current)
+    }
+
+    fun bookmarkedIdsStream(): Flow<Set<String>> = dao.bookmarksStream().map { entities ->
+        entities.map { it.id }.toSet()
+    }
+
+    suspend fun toggleBookmarkForArticle(article: Article) {
+        val existing = dao.getById(article.id)
+        if (existing == null) {
+            dao.upsertPreservingBookmark(listOf(article.toEntity()), firstSeenAt = now())
+            dao.setBookmarked(article.id, true)
+        } else {
+            dao.setBookmarked(article.id, !existing.isBookmarked)
+        }
     }
 }

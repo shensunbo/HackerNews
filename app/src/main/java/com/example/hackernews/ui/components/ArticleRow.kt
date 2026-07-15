@@ -28,6 +28,7 @@ fun ArticleRow(
     onOpen: () -> Unit,
     onToggleBookmark: () -> Unit,
     modifier: Modifier = Modifier,
+    showTime: Boolean = true,
 ) {
     Column(
         modifier = modifier
@@ -67,13 +68,15 @@ fun ArticleRow(
             )
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                text = relativeTime(article.publishedAt, nowMillis),
-                color = TerminalColors.PrimaryDim,
-                style = MaterialTheme.typography.labelMedium,
-            )
+            if (showTime) {
+                Text(
+                    text = relativeTime(article.publishedAt, nowMillis),
+                    color = TerminalColors.PrimaryDim,
+                    style = MaterialTheme.typography.labelMedium,
+                )
+            }
             article.score?.let {
-                Spacer(Modifier.width(8.dp))
+                if (showTime) Spacer(Modifier.width(8.dp))
                 Text(
                     text = "▲$it",
                     color = TerminalColors.Accent,
