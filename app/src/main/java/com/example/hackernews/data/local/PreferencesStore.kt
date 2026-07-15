@@ -16,7 +16,11 @@ interface TopicPreferencesSource {
     fun topicPrefs(): Flow<Map<String, PreferencesStore.TopicPref>>
 }
 
-class PreferencesStore(private val context: Context) : TopicPreferencesSource {
+interface ReadingModeSource {
+    fun readingMode(): Flow<ReadingMode>
+}
+
+class PreferencesStore(private val context: Context) : TopicPreferencesSource, ReadingModeSource {
 
     data class TopicPref(val enabled: Boolean?, val weight: Float?)
 
@@ -24,7 +28,7 @@ class PreferencesStore(private val context: Context) : TopicPreferencesSource {
     private fun enabledKey(id: String) = booleanPreferencesKey("topic_enabled_$id")
     private fun weightKey(id: String) = floatPreferencesKey("topic_weight_$id")
 
-    fun readingMode(): Flow<ReadingMode> = context.dataStore.data.map { p ->
+    override fun readingMode(): Flow<ReadingMode> = context.dataStore.data.map { p ->
         when (p[readingModeKey]) {
             ReadingMode.EXTERNAL_BROWSER.name -> ReadingMode.EXTERNAL_BROWSER
             else -> ReadingMode.CUSTOM_TABS

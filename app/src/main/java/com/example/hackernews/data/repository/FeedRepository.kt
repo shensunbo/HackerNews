@@ -18,6 +18,12 @@ import kotlinx.coroutines.flow.map
 
 data class RefreshResult(val count: Int, val failed: Boolean)
 
+interface FeedDataSource {
+    fun feedStream(): Flow<List<Article>>
+    suspend fun refresh(): RefreshResult
+    suspend fun toggleBookmark(id: String)
+}
+
 class FeedRepository(
     private val dao: ArticleDao,
     private val prefs: TopicPreferencesSource,
@@ -25,7 +31,7 @@ class FeedRepository(
     private val hn: RemoteArticleSource,
     private val rss: RemoteArticleSource,
     private val now: () -> Long = { System.currentTimeMillis() },
-) {
+) : FeedDataSource {
     private val baseTopics: List<Topic> = configLoader.loadTopics()
 
     fun topicsStream(): Flow<List<Topic>> = prefs.topicPrefs().map { overrides ->
@@ -35,7 +41,7 @@ class FeedRepository(
         }
     }
 
-    fun feedStream(): Flow<List<Article>> =
+    override fun feedStream(): Flow<List<Article>> =
         combine(dao.feedStream(), topicsStream()) { entities, topics ->
             val enabledIds = topics.filter { it.enabled }.map { it.id }.toSet()
             val weights = topics.associate { it.id to it.weight }
@@ -44,7 +50,7 @@ class FeedRepository(
             rankFeed(articles, weights, now())
         }
 
-    suspend fun refresh(): RefreshResult {
+    override suspend fun refresh(): RefreshResult {
         val enabled = topicsStream().first().filter { it.enabled }
         if (enabled.isEmpty()) return RefreshResult(0, failed = false)
         val nowMs = now()
@@ -77,7 +83,7 @@ class FeedRepository(
                 }
         }
 
-    suspend fun toggleBookmark(id: String) {
+    override suspend fun toggleBookmark(id: String) {
         val current = dao.getById(id)?.isBookmarked ?: false
         dao.setBookmarked(id, !current)
     }
