@@ -7,9 +7,10 @@
 - 总体设计：`.claude/2026-07-15-dev-news-app-design.md`
 - UI 设计（终端绿黑规范）：`.claude/2026-07-15-dev-news-app-ui-design.md`
 - 实施计划（22 个 TDD task）：`.claude/2026-07-15-dev-news-app-plan.md`
+- 实施计划 Review：`.claude/2026-07-15-dev-news-app-plan-review.md`
 - 原始需求：`.claude/spec.md`
 
-实施时用 `superpowers:executing-plans` 或 `superpowers:subagent-driven-development` 按 plan 逐 task 执行。
+实施前先处理 plan review 中的 P0/P1 问题，再用 `superpowers:executing-plans` 或 `superpowers:subagent-driven-development` 按 plan 逐 task 执行。
 
 ## 是什么
 
