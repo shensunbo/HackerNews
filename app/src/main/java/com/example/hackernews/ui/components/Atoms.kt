@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -33,6 +34,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.hackernews.ui.theme.TerminalColors
 import kotlinx.coroutines.delay
+
+val LocalTerminalAnimationsEnabled = compositionLocalOf { true }
 
 @Composable
 fun TopicTag(id: String, modifier: Modifier = Modifier) {
@@ -71,6 +74,11 @@ fun BookmarkStar(active: Boolean, onClick: () -> Unit, modifier: Modifier = Modi
 
 @Composable
 fun BlinkingCursor() {
+    if (!LocalTerminalAnimationsEnabled.current) {
+        CursorText(visible = true)
+        return
+    }
+
     var visible by remember { mutableStateOf(true) }
     LaunchedEffect(Unit) {
         while (true) {
@@ -78,6 +86,11 @@ fun BlinkingCursor() {
             visible = !visible
         }
     }
+    CursorText(visible = visible)
+}
+
+@Composable
+private fun CursorText(visible: Boolean) {
     Text(
         text = if (visible) " █" else "  ",
         color = TerminalColors.Primary,
@@ -89,6 +102,11 @@ fun BlinkingCursor() {
 @Composable
 fun BrailleSpinner(label: String, modifier: Modifier = Modifier) {
     val frames = "⠋⠙⠹⠸⠼⠴⠦⠧"
+    if (!LocalTerminalAnimationsEnabled.current) {
+        SpinnerContent(frame = frames.first(), label = label, modifier = modifier)
+        return
+    }
+
     var index by remember { mutableIntStateOf(0) }
     LaunchedEffect(Unit) {
         while (true) {
@@ -96,12 +114,17 @@ fun BrailleSpinner(label: String, modifier: Modifier = Modifier) {
             index = (index + 1) % frames.length
         }
     }
+    SpinnerContent(frame = frames[index], label = label, modifier = modifier)
+}
+
+@Composable
+private fun SpinnerContent(frame: Char, label: String, modifier: Modifier) {
     Row(
         modifier = modifier.padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            text = "${frames[index]} $label",
+            text = "$frame $label",
             color = TerminalColors.PrimaryDim,
             style = MaterialTheme.typography.bodyMedium,
         )
