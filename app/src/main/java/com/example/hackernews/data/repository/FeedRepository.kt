@@ -76,11 +76,7 @@ class FeedRepository(
 
     fun bookmarksStream(topicId: String?, query: String): Flow<List<Article>> =
         dao.bookmarksStream().map { list ->
-            list.map { it.toArticle() }
-                .filter { topicId == null || it.topicIds.contains(topicId) }
-                .filter { q ->
-                    query.isBlank() || q.title.contains(query, true) || q.source.contains(query, true)
-                }
+            filterBookmarks(list.map { it.toArticle() }, topicId, query)
         }
 
     override suspend fun toggleBookmark(id: String) {
