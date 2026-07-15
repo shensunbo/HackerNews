@@ -42,7 +42,6 @@ build/
 
 # User-specific files
 local.properties
-gradle.properties
 
 # OS
 .DS_Store
