@@ -6,6 +6,7 @@ import com.example.hackernews.domain.model.ReadingMode
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -28,6 +29,22 @@ class PreferencesStoreTest {
         store.setWeight("ai", 1.5f)
         val pref = store.topicPrefs().first()["ai"]!!
         assertEquals(false, pref.enabled)
+        assertEquals(1.5f, pref.weight)
+    }
+
+    @Test fun settingEnabled_doesNotOverrideConfiguredWeight() = runBlocking {
+        store.setEnabled("backend", false)
+
+        val pref = store.topicPrefs().first()["backend"]!!
+        assertEquals(false, pref.enabled)
+        assertNull(pref.weight)
+    }
+
+    @Test fun settingWeight_doesNotOverrideConfiguredEnabledState() = runBlocking {
+        store.setWeight("experimental", 1.5f)
+
+        val pref = store.topicPrefs().first()["experimental"]!!
+        assertNull(pref.enabled)
         assertEquals(1.5f, pref.weight)
     }
 }

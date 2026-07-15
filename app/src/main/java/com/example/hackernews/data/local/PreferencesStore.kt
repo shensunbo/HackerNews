@@ -12,9 +12,13 @@ import kotlinx.coroutines.flow.map
 
 private val Context.dataStore by preferencesDataStore(name = "prefs")
 
-class PreferencesStore(private val context: Context) {
+interface TopicPreferencesSource {
+    fun topicPrefs(): Flow<Map<String, PreferencesStore.TopicPref>>
+}
 
-    data class TopicPref(val enabled: Boolean, val weight: Float)
+class PreferencesStore(private val context: Context) : TopicPreferencesSource {
+
+    data class TopicPref(val enabled: Boolean?, val weight: Float?)
 
     private val readingModeKey = stringPreferencesKey("reading_mode")
     private fun enabledKey(id: String) = booleanPreferencesKey("topic_enabled_$id")
@@ -30,7 +34,7 @@ class PreferencesStore(private val context: Context) {
         context.dataStore.edit { it[readingModeKey] = mode.name }
     }
 
-    fun topicPrefs(): Flow<Map<String, TopicPref>> = context.dataStore.data.map { p ->
+    override fun topicPrefs(): Flow<Map<String, TopicPref>> = context.dataStore.data.map { p ->
         val ids = p.asMap().keys
             .mapNotNull { k ->
                 when {
@@ -41,8 +45,8 @@ class PreferencesStore(private val context: Context) {
             }.toSet()
         ids.associateWith { id ->
             TopicPref(
-                enabled = p[enabledKey(id)] ?: true,
-                weight = p[weightKey(id)] ?: 1.0f,
+                enabled = p[enabledKey(id)],
+                weight = p[weightKey(id)],
             )
         }
     }

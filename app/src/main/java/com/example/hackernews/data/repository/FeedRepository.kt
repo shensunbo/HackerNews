@@ -1,12 +1,12 @@
 package com.example.hackernews.data.repository
 
-import com.example.hackernews.data.config.AssetConfigLoader
+import com.example.hackernews.data.config.TopicConfigSource
 import com.example.hackernews.data.local.ArticleDao
-import com.example.hackernews.data.local.PreferencesStore
+import com.example.hackernews.data.local.TopicPreferencesSource
 import com.example.hackernews.data.local.toArticle
 import com.example.hackernews.data.local.toEntity
-import com.example.hackernews.data.remote.HnRemoteSource
-import com.example.hackernews.data.remote.RssRemoteSource
+import com.example.hackernews.data.remote.RemoteArticleSource
+import com.example.hackernews.data.remote.RemoteFetchResult
 import com.example.hackernews.domain.model.Article
 import com.example.hackernews.domain.model.Topic
 import kotlinx.coroutines.async
@@ -20,10 +20,10 @@ data class RefreshResult(val count: Int, val failed: Boolean)
 
 class FeedRepository(
     private val dao: ArticleDao,
-    private val prefs: PreferencesStore,
-    configLoader: AssetConfigLoader,
-    private val hn: HnRemoteSource,
-    private val rss: RssRemoteSource,
+    private val prefs: TopicPreferencesSource,
+    configLoader: TopicConfigSource,
+    private val hn: RemoteArticleSource,
+    private val rss: RemoteArticleSource,
     private val now: () -> Long = { System.currentTimeMillis() },
 ) {
     private val baseTopics: List<Topic> = configLoader.loadTopics()
@@ -49,13 +49,23 @@ class FeedRepository(
         if (enabled.isEmpty()) return RefreshResult(0, failed = false)
         val nowMs = now()
         val (hnR, rssR) = coroutineScope {
-            val h = async { runCatching { hn.fetch(enabled) } }
-            val r = async { runCatching { rss.fetch(enabled, nowMs) } }
+            val h = async {
+                runCatching { hn.fetch(enabled, nowMs) }
+                    .getOrElse { RemoteFetchResult.failure() }
+            }
+            val r = async {
+                runCatching { rss.fetch(enabled, nowMs) }
+                    .getOrElse { RemoteFetchResult.failure() }
+            }
             h.await() to r.await()
         }
-        val merged = mergeArticles(hnR.getOrElse { emptyList() } + rssR.getOrElse { emptyList() })
+        val remote = hnR + rssR
+        val merged = mergeArticles(remote.articles)
         dao.upsertPreservingBookmark(merged.map { it.toEntity() })
-        return RefreshResult(merged.size, failed = hnR.isFailure && rssR.isFailure)
+        return RefreshResult(
+            count = merged.size,
+            failed = remote.successfulRequests == 0 && remote.failedRequests > 0,
+        )
     }
 
     fun bookmarksStream(topicId: String?, query: String): Flow<List<Article>> =
