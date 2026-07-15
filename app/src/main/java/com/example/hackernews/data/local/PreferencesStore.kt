@@ -58,7 +58,7 @@ class PreferencesStore(private val context: Context) : TopicPreferencesSource, R
         context.dataStore.edit { it[enabledKey(topicId)] = enabled }
     }
     suspend fun setWeight(topicId: String, weight: Float) {
-        context.dataStore.edit { it[weightKey(topicId)] = weight }
+        context.dataStore.edit { it[weightKey(topicId)] = weight.coerceIn(0f, 2f) }
     }
 
     suspend fun clear() {

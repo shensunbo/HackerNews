@@ -47,4 +47,12 @@ class PreferencesStoreTest {
         assertNull(pref.enabled)
         assertEquals(1.5f, pref.weight)
     }
+
+    @Test fun topicWeight_isClampedToSupportedRange() = runBlocking {
+        store.setWeight("ai", 3.5f)
+        assertEquals(2.0f, store.topicPrefs().first()["ai"]!!.weight)
+
+        store.setWeight("ai", -1.0f)
+        assertEquals(0.0f, store.topicPrefs().first()["ai"]!!.weight)
+    }
 }
