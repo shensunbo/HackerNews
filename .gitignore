@@ -1,0 +1,102 @@
+# IDE
+*.iml
+.gradle
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Android Studio
+/.idea/
+.gradle
+/local.properties
+/build
+/captures
+/.externalNativeBuild
+/.cxx
+.externalNativeBuild
+.cxx/
+
+# IDE configuration
+.idea/caches
+.idea/libraries
+.idea/modules.xml
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+.idea/vcs.xml
+.idea/misc.xml
+.idea/deploymentTargetDropDown.xml
+
+# Gradle
+.gradle/
+**/build/
+build/
+
+# User-specific files
+local.properties
+gradle.properties
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Build outputs
+*.apk
+*.aar
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+out/
+
+# Signing files
+*.keystore
+*.jks
+*.p12
+*.pfx
+
+# Native build
+.externalNativeBuild
+.cxx/
+
+# Local files
+local.properties
+keystore.properties
+signing.properties
+
+# Lint outputs
+lint-results*.xml
+lint-results*.json
+
+# Kotlin
+.kotlin/
+*.kotlin_module
+
+# IntelliJ
+*.iws
+*.ipr
+
+# AndroidStudio
+.navigation
+captures/
+
+# Misc
+*.log
+.classpath
+.settings
+.vscode/
+.vscode_personal/
