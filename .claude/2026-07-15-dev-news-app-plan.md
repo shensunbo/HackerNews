@@ -94,11 +94,13 @@ app/src/main/java/com/example/hackernews/
 
 ### Task 1: Gradle 依赖与启用 Compose
 
-搭建整个工程的构建地基：加入 Kotlin + Compose 插件、KSP、以及全部依赖到版本目录。这是纯配置任务，"测试"= 依赖同步 + 空构建成功。
+搭建整个工程的构建地基：Compose / serialization 插件、KSP、以及全部依赖到版本目录。这是纯配置任务，"测试"= 依赖同步 + 空构建成功。
+
+> **AGP 9 内置 Kotlin**：本工程用 AGP 9.1.1 自带的 Kotlin 支持，**不引入独立 `kotlin-android` 插件**；`gradle.properties` 保留 `android.disallowKotlinSourceSets=false` 让 KSP 注册生成源。构建加速项（缓存/配置缓存/并行、堆）已在 `gradle.properties` 配好，本 task 只关注依赖与插件。
 
 **Files:**
-- Modify: `gradle/libs.versions.toml`（全量补充 versions/libraries/plugins）
-- Modify: `app/build.gradle.kts`（加插件、Compose、依赖）
+- Modify: `gradle/libs.versions.toml`（补充 versions/libraries/plugins）
+- Modify: `app/build.gradle.kts`（加插件、Compose、依赖、packaging）
 - Modify: `build.gradle.kts`（根，声明插件 apply false）
 
 **Interfaces:**
@@ -107,8 +109,8 @@ app/src/main/java/com/example/hackernews/
 - [ ] **Step 1: 在 `gradle/libs.versions.toml` 的 `[versions]` 补充**
 
 ```toml
-kotlin = "2.2.0"
-ksp = "2.2.0-2.0.2"
+kotlin = "2.2.10"
+ksp = "2.2.10-2.0.2"
 coreKtx = "1.18.0"
 lifecycle = "2.9.0"
 activityCompose = "1.11.0"
@@ -140,7 +142,6 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-kotlinx-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
@@ -161,7 +162,7 @@ kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 - [ ] **Step 3: 在 `[plugins]` 补充**
 
 ```toml
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+# 注意：AGP 9 内置 Kotlin，不声明 kotlin-android 插件
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
@@ -172,7 +173,6 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ```kotlin
 plugins {
     alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.ksp) apply false
@@ -184,7 +184,6 @@ plugins {
 ```kotlin
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
@@ -212,9 +211,19 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions { jvmTarget = "17" }
     buildFeatures { compose = true }
+    packaging {
+        resources {
+            excludes += setOf(
+                "/META-INF/{AL2.0,LGPL2.1}",
+                "/META-INF/DEPENDENCIES",
+                "/META-INF/*.version",
+            )
+        }
+    }
 }
+// 注：AGP 9 内置 Kotlin，jvmTarget 随 compileOptions 对齐 17；
+// 若构建告警 jvmTarget 不一致，再按 AGP 9 内置 Kotlin DSL 显式设为 17（勿用独立 kotlin-android 插件）。
 
 dependencies {
     implementation(libs.androidx.core.ktx)
@@ -226,7 +235,6 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.retrofit)
     implementation(libs.retrofit.kotlinx.serialization)
@@ -260,7 +268,7 @@ Expected: BUILD SUCCESSFUL（此时还没业务代码，仅验证依赖解析与
 - [ ] **Step 7: Commit**
 
 ```bash
-git add gradle/libs.versions.toml build.gradle.kts app/build.gradle.kts
+git add gradle/libs.versions.toml build.gradle.kts app/build.gradle.kts gradle.properties
 git commit -m "chore: add Compose, Room, Retrofit, RSS and KSP dependencies"
 ```
 
