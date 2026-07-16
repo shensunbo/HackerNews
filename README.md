@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" alt="ReadLater icon" width="96">
+</p>
+
 # ReadLater
 
 Personal Android reader for software-development news and evergreen engineering
