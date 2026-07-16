@@ -1,6 +1,8 @@
 package com.example.hackernews.di
 
 import android.content.Context
+import com.example.hackernews.data.classics.ClassicsRepository
+import com.example.hackernews.data.classics.ClassicsSelector
 import com.example.hackernews.data.config.AssetConfigLoader
 import com.example.hackernews.data.config.ClassicItem
 import com.example.hackernews.data.local.AppDatabase
@@ -36,5 +38,11 @@ class AppContainer(context: Context) {
         hn = HnRemoteSource(hnApi),
         rss = RssRemoteSource(),
     )
-    val classics: List<ClassicItem> by lazy(configLoader::loadClassics)
+    private val classicsPool = configLoader.loadClassicsPool()
+    val classicsRepository = ClassicsRepository(
+        selector = ClassicsSelector(classicsPool.items, classicsPool.poolVersion),
+        stateStore = preferencesStore,
+        bookmarks = feedRepository,
+    )
+    val classics: List<ClassicItem> get() = classicsPool.items
 }
