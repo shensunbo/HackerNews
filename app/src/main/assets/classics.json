@@ -3,49 +3,49 @@
     {
       "title": "The Twelve-Factor App",
       "url": "https://12factor.net",
-      "summary": "云原生应用的 12 条通用准则。",
+      "summary": "The twelve general rules for cloud-native apps.",
       "topicId": "backend"
     },
     {
       "title": "Latency Numbers Every Programmer Should Know",
       "url": "https://gist.github.com/jboner/2841832",
-      "summary": "常见操作的延迟量级，建立性能直觉。",
+      "summary": "Latency magnitudes for common operations; build performance intuition.",
       "topicId": "backend"
     },
     {
       "title": "Big Ball of Mud",
       "url": "http://www.laputan.org/mud/",
-      "summary": "关于失控架构的经典论文。",
+      "summary": "A classic paper on runaway architecture.",
       "topicId": "backend"
     },
     {
       "title": "The Law of Leaky Abstractions",
       "url": "https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/",
-      "summary": "所有抽象都会在某处泄漏。",
+      "summary": "Every abstraction leaks somewhere.",
       "topicId": "languages"
     },
     {
       "title": "Parse, Don't Validate",
       "url": "https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/",
-      "summary": "用类型把非法状态挡在门外。",
+      "summary": "Use types to keep illegal states unrepresentable.",
       "topicId": "languages"
     },
     {
       "title": "Falsehoods Programmers Believe About Names",
       "url": "https://www.kalzumeus.com/2010/06/17/falsehoods-programmers-believe-about-names/",
-      "summary": "关于姓名的错误假设合集。",
+      "summary": "False assumptions programmers hold about names.",
       "topicId": "career"
     },
     {
       "title": "What Every Programmer Should Know About Memory",
       "url": "https://people.freebsd.org/~lstewart/articles/cpumemory.pdf",
-      "summary": "内存层级与性能的深度长文。",
+      "summary": "A deep dive on the memory hierarchy and performance.",
       "topicId": "languages"
     },
     {
       "title": "On the Criteria To Be Used in Decomposing Systems into Modules",
       "url": "https://www.win.tue.nl/~wstomv/edu/2ip30/references/criteria_for_modularization.pdf",
-      "summary": "Parnas 关于模块化的奠基论文。",
+      "summary": "Parnas's foundational paper on modularization.",
       "topicId": "backend"
     }
   ]

@@ -27,6 +27,6 @@ class ProfileScreenIdleTest {
             }
         }
 
-        composeRule.onNodeWithText("★  收藏").assertIsDisplayed()
+        composeRule.onNodeWithText("★  Bookmarks").assertIsDisplayed()
     }
 }

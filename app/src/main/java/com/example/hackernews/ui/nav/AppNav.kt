@@ -57,12 +57,12 @@ fun AppNav(startDestination: String = FEED_ROUTE) {
                             onClick = { navController.switchTab(Routes.FEED) },
                         ),
                         BottomNavItem(
-                            label = "经典",
+                            label = "CLASSICS",
                             selected = currentRoute == Routes.CLASSICS,
                             onClick = { navController.switchTab(Routes.CLASSICS) },
                         ),
                         BottomNavItem(
-                            label = "我的",
+                            label = "PROFILE",
                             selected = currentRoute == Routes.PROFILE,
                             onClick = { navController.switchTab(Routes.PROFILE) },
                         ),

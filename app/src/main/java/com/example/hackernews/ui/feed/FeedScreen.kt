@@ -45,7 +45,7 @@ fun FeedScreen() {
         ) {
             when {
                 articles.isEmpty() && refreshing -> BrailleSpinner("fetching feeds…")
-                articles.isEmpty() -> EmptyState("~ 还没有内容，下拉刷新 ~")
+                articles.isEmpty() -> EmptyState("~ nothing here yet, pull to refresh ~")
                 else -> LazyColumn(Modifier.fillMaxSize()) {
                     items(articles, key = { it.id }) { article ->
                         ArticleRow(

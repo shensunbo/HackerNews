@@ -28,10 +28,10 @@ fun ProfileScreen(
 ) {
     Column(Modifier.fillMaxSize()) {
         TerminalAppBar("> whoami")
-        ProfileMenuRow("★  收藏", onOpenBookmarks)
-        ProfileMenuRow("#  Topic 偏好", onOpenTopics)
-        ProfileMenuRow("⇱  阅读方式", onOpenReading)
-        ProfileMenuRow("?  关于", onOpenAbout)
+        ProfileMenuRow("★  Bookmarks", onOpenBookmarks)
+        ProfileMenuRow("#  Topic Prefs", onOpenTopics)
+        ProfileMenuRow("⇱  Reading Mode", onOpenReading)
+        ProfileMenuRow("?  About", onOpenAbout)
     }
 }
 

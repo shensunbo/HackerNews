@@ -30,7 +30,7 @@ class AppNavTest {
             }
         }
 
-        composeRule.onNodeWithText("★  收藏").performClick()
+        composeRule.onNodeWithText("★  Bookmarks").performClick()
 
         composeRule.onNodeWithText("> bookmarks").assertIsDisplayed()
         composeRule.onAllNodesWithText("FEED").assertCountEquals(0)

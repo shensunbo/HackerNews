@@ -17,8 +17,8 @@ fun AboutScreen(onBack: () -> Unit) {
         TerminalAppBar("> about", onBack = onBack)
         Text(
             text = "dev-news v1.0\n" +
-                "数据来源：Hacker News + 精选 RSS\n" +
-                "内容仅链接跳转，版权归原站所有。",
+                "data source: Hacker News + curated RSS\n" +
+                "links out only; copyright belongs to the source sites.",
             color = TerminalColors.TextSecondary,
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(16.dp),

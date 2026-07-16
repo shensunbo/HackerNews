@@ -27,7 +27,7 @@ fun ClassicsScreen() {
     Column(Modifier.fillMaxSize()) {
         TerminalAppBar("> classics --must_read")
         if (articles.isEmpty()) {
-            EmptyState("$ classics.json 为空")
+            EmptyState("$ classics.json is empty")
         } else {
             LazyColumn(Modifier.fillMaxSize()) {
                 items(articles, key = { it.id }) { article ->

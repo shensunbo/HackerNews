@@ -38,7 +38,7 @@ fun TerminalAppBar(
                     modifier = Modifier
                         .heightIn(min = 48.dp)
                         .clickable(role = Role.Button, onClick = onBack)
-                        .semantics { contentDescription = "返回" }
+                        .semantics { contentDescription = "back" }
                         .padding(horizontal = 16.dp),
                     contentAlignment = Alignment.Center,
                 ) {

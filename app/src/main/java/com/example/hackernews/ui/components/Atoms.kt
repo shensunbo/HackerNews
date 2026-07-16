@@ -59,7 +59,7 @@ fun BookmarkStar(active: Boolean, onClick: () -> Unit, modifier: Modifier = Modi
             .sizeIn(minWidth = 48.dp, minHeight = 48.dp)
             .clickable(role = Role.Button, onClick = onClick)
             .semantics {
-                contentDescription = if (active) "取消收藏" else "收藏"
+                contentDescription = if (active) "remove bookmark" else "bookmark"
             },
         contentAlignment = Alignment.Center,
     ) {
@@ -176,7 +176,7 @@ fun StatusBanner(
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
-                    text = "[重试]",
+                    text = "[retry]",
                     color = TerminalColors.Primary,
                     style = MaterialTheme.typography.labelMedium,
                 )

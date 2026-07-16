@@ -35,7 +35,7 @@ class FeedViewModelTest {
         val viewModel = FeedViewModel(repository, FakeReadingModeSource())
         advanceUntilIdle()
 
-        assertEquals("刷新失败，显示缓存", viewModel.error.value)
+        assertEquals("refresh failed — showing cache", viewModel.error.value)
         assertFalse(viewModel.refreshing.value)
     }
 
@@ -45,7 +45,7 @@ class FeedViewModelTest {
         val viewModel = FeedViewModel(repository, FakeReadingModeSource())
         advanceUntilIdle()
 
-        assertEquals("刷新失败，显示缓存", viewModel.error.value)
+        assertEquals("refresh failed — showing cache", viewModel.error.value)
         assertFalse(viewModel.refreshing.value)
     }
 

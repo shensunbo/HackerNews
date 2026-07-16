@@ -85,7 +85,7 @@ fun TopicChipRow(
             .horizontalScroll(rememberScrollState())
             .padding(horizontal = 16.dp, vertical = 4.dp),
     ) {
-        TopicChip("全部", selectedId == null) { onSelect(null) }
+        TopicChip("All", selectedId == null) { onSelect(null) }
         chips.forEach { (id, label) ->
             Spacer(Modifier.width(8.dp))
             TopicChip(label, selectedId == id) { onSelect(id) }

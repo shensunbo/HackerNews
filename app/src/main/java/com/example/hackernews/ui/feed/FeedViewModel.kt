@@ -38,11 +38,11 @@ class FeedViewModel(
         refreshing.value = true
         try {
             val result = repository.refresh()
-            error.value = if (result.failed) "刷新失败，显示缓存" else null
+            error.value = if (result.failed) "refresh failed — showing cache" else null
         } catch (error: CancellationException) {
             throw error
         } catch (_: Exception) {
-            error.value = "刷新失败，显示缓存"
+            error.value = "refresh failed — showing cache"
         } finally {
             refreshing.value = false
         }

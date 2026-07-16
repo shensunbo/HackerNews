@@ -2,7 +2,7 @@
   "topics": [
     {
       "id": "backend",
-      "name": "后端 & 架构",
+      "name": "Backend & Architecture",
       "enabled": true,
       "weight": 1.2,
       "feeds": [
@@ -17,7 +17,7 @@
     },
     {
       "id": "frontend",
-      "name": "前端 & Web",
+      "name": "Frontend & Web",
       "enabled": true,
       "weight": 1.0,
       "feeds": [
@@ -32,7 +32,7 @@
     },
     {
       "id": "languages",
-      "name": "编程语言 & CS 基础",
+      "name": "Languages & CS",
       "enabled": true,
       "weight": 1.0,
       "feeds": [
@@ -46,7 +46,7 @@
     },
     {
       "id": "ai",
-      "name": "AI 工程",
+      "name": "AI Engineering",
       "enabled": true,
       "weight": 1.0,
       "feeds": [
@@ -60,7 +60,7 @@
     },
     {
       "id": "devops",
-      "name": "DevOps & 云",
+      "name": "DevOps & Cloud",
       "enabled": true,
       "weight": 0.9,
       "feeds": [
@@ -74,7 +74,7 @@
     },
     {
       "id": "career",
-      "name": "职业成长 & 工程实践",
+      "name": "Career & Practice",
       "enabled": true,
       "weight": 0.9,
       "feeds": [

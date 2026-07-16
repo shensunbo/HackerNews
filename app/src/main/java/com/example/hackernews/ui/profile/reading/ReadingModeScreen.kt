@@ -33,18 +33,18 @@ fun ReadingModeScreen(onBack: () -> Unit) {
         TerminalAppBar("> reading --mode", onBack = onBack)
         ReadingOption(
             title = "Custom Tabs",
-            subtitle = "应用内浮层打开",
+            subtitle = "opens in an in-app overlay",
             selected = mode == ReadingMode.CUSTOM_TABS,
             onClick = { viewModel.set(ReadingMode.CUSTOM_TABS) },
         )
         ReadingOption(
-            title = "外部浏览器",
-            subtitle = "跳转 Chrome 等",
+            title = "External Browser",
+            subtitle = "opens Chrome, etc.",
             selected = mode == ReadingMode.EXTERNAL_BROWSER,
             onClick = { viewModel.set(ReadingMode.EXTERNAL_BROWSER) },
         )
         Text(
-            text = "· 设备无 Custom Tabs 时自动回退到外部浏览器",
+            text = "· falls back to external browser when no Custom Tabs provider is available",
             color = TerminalColors.TextSecondary,
             style = MaterialTheme.typography.labelMedium,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
