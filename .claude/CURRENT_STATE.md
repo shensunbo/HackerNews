@@ -6,13 +6,12 @@ verification_code_base: `f517c5d`
 
 ## Current objective
 
-Validate the newly signed Release APK on the device without losing data by
-accident.
+Prepare the next versioned GitHub Release from the verified signed APK.
 
 ## Next action
 
-Choose whether to uninstall the currently installed Debug app (which clears its
-local data), then install and manually verify the signed Release APK.
+Set a release version/tag, upload the signed APK to GitHub Releases, and retain
+the keystore backup outside the repository.
 
 ## Working tree
 
@@ -27,16 +26,16 @@ and `keystore.properties` are intentionally ignored and must never be staged.
 | Debug build | `./gradlew :app:assembleDebug` | pass | `af4ddc8` |
 | Connected tests | `./gradlew :app:connectedDebugAndroidTest` | pass: 23 tests, 0 failures, 2 skipped | `af4ddc8` on V2324HA / Android 15 |
 | Signed Release build | `./gradlew :app:assembleRelease` + `apksigner verify` | pass: v2 signature, one 4096-bit RSA signer | `f517c5d` |
-| Device install | Debug APK installed and visually checked; Release install pending | Release: none |
+| Device install | `adb install app/build/outputs/apk/release/app-release.apk` | pass: installed and launched on V2324HA / Android 15 |
 
 The skipped connected tests are `AppNavTest` and `ProfileScreenIdleTest`; both are
 explicitly quarantined for a Compose/Espresso idling-sync hang on this vivo device.
 
 ## Known risks
 
-- The phone currently has a Debug-signed app. Installing the same package signed
-  by the new Release key requires uninstalling Debug first, which clears its
-  local app data.
+- Release validation required uninstalling the Debug-signed app first, which
+  cleared its local app data. Future Release updates signed with this key can
+  install over the current Release app and retain its data.
 - The release key is the app's long-term update identity. Back up the ignored
   keystore and `keystore.properties` in a secure password manager or encrypted
   storage; never commit either file.
