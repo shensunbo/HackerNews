@@ -10,6 +10,7 @@ fun interface TopicConfigSource {
 class AssetConfigLoader(private val context: Context) : TopicConfigSource {
     override fun loadTopics(): List<Topic> = parseTopics(readAsset("topics.json"))
     fun loadClassics(): List<ClassicItem> = parseClassics(readAsset("classics.json"))
+    fun loadClassicsPool(): ClassicsPool = parseClassicsPool(readAsset("classics.json"))
     private fun readAsset(name: String): String =
         context.assets.open(name).bufferedReader().use { it.readText() }
 }

@@ -34,4 +34,19 @@ class ConfigParsingTest {
           "feeds":[],"keywords":[],"future":"ignored"}],"meta":"ignored"}"""
         assertEquals("x", parseTopics(json)[0].id)
     }
+
+    @Test fun parsesClassicsPoolVersion() {
+        val json = """{"poolVersion":3,"items":[{"title":"T","url":"https://x.io",
+          "summary":"s","topicId":"backend"}]}"""
+        val pool = parseClassicsPool(json)
+        assertEquals(3, pool.poolVersion)
+        assertEquals(1, pool.items.size)
+        assertEquals("https://x.io", pool.items[0].url)
+        assertEquals("backend", pool.items[0].topicId)
+    }
+
+    @Test fun classicsPoolVersionDefaultsToOne() {
+        val json = """{"items":[{"title":"T","url":"https://x.io","summary":"s","topicId":"backend"}]}"""
+        assertEquals(1, parseClassicsPool(json).poolVersion)
+    }
 }

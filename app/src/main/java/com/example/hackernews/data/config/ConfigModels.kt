@@ -26,7 +26,16 @@ data class ClassicItem(
 )
 
 @Serializable
-data class ClassicsConfig(val items: List<ClassicItem> = emptyList())
+data class ClassicsConfig(
+    val poolVersion: Int = 1,
+    val items: List<ClassicItem> = emptyList(),
+)
+
+/** Parsed classics.json: a versioned pool of must-read articles. */
+data class ClassicsPool(
+    val poolVersion: Int,
+    val items: List<ClassicItem>,
+)
 
 private val configJson = Json { ignoreUnknownKeys = true }
 
@@ -35,5 +44,9 @@ fun parseTopics(json: String): List<Topic> =
         Topic(it.id, it.name, it.enabled, it.weight, it.feeds, it.keywords)
     }
 
-fun parseClassics(json: String): List<ClassicItem> =
-    configJson.decodeFromString<ClassicsConfig>(json).items
+fun parseClassicsPool(json: String): ClassicsPool {
+    val config = configJson.decodeFromString<ClassicsConfig>(json)
+    return ClassicsPool(config.poolVersion, config.items)
+}
+
+fun parseClassics(json: String): List<ClassicItem> = parseClassicsPool(json).items
