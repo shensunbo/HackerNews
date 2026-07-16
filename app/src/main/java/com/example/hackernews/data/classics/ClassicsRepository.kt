@@ -24,6 +24,9 @@ class ClassicsRepository(
 ) {
     private val state = MutableStateFlow<ClassicsState?>(null)
 
+    /** Number of items in the shipped pool (read-only, no initialization needed). */
+    val poolSize: Int get() = selector.poolSize
+
     val batchStream: Flow<List<Article>> =
         combine(state, bookmarks.bookmarkedIdsStream()) { current, bookmarkedIds ->
             val active = current ?: return@combine emptyList()

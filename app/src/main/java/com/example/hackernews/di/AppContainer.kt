@@ -4,7 +4,6 @@ import android.content.Context
 import com.example.hackernews.data.classics.ClassicsRepository
 import com.example.hackernews.data.classics.ClassicsSelector
 import com.example.hackernews.data.config.AssetConfigLoader
-import com.example.hackernews.data.config.ClassicItem
 import com.example.hackernews.data.local.AppDatabase
 import com.example.hackernews.data.local.PreferencesStore
 import com.example.hackernews.data.remote.HnApiService
@@ -44,5 +43,4 @@ class AppContainer(context: Context) {
         stateStore = preferencesStore,
         bookmarks = feedRepository,
     )
-    val classics: List<ClassicItem> get() = classicsPool.items
 }

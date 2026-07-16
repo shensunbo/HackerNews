@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -27,6 +28,7 @@ fun TerminalAppBar(
     command: String,
     onBack: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
+    action: (@Composable () -> Unit)? = null,
 ) {
     Column(modifier) {
         Row(
@@ -57,6 +59,10 @@ fun TerminalAppBar(
                 style = MaterialTheme.typography.titleLarge,
             )
             BlinkingCursor()
+            if (action != null) {
+                Spacer(Modifier.weight(1f))
+                action()
+            }
         }
         HorizontalDivider(color = TerminalColors.Border)
     }

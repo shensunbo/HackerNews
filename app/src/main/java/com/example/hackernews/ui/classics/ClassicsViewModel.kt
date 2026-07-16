@@ -2,44 +2,51 @@ package com.example.hackernews.ui.classics
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hackernews.data.classics.toArticle
-import com.example.hackernews.data.config.ClassicItem
+import com.example.hackernews.data.classics.ClassicsRepository
 import com.example.hackernews.data.local.PreferencesStore
-import com.example.hackernews.data.remote.articleIdFor
-import com.example.hackernews.data.repository.FeedRepository
 import com.example.hackernews.domain.model.Article
-import com.example.hackernews.domain.model.ArticleOrigin
 import com.example.hackernews.domain.model.ReadingMode
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ClassicsViewModel(
-    private val repository: FeedRepository,
+    private val repository: ClassicsRepository,
     preferencesStore: PreferencesStore,
-    classics: List<ClassicItem>,
 ) : ViewModel() {
-    private val baseArticles = classics.map(ClassicItem::toArticle)
-
-    val articles = repository.bookmarkedIdsStream()
-        .map { bookmarkedIds ->
-            baseArticles.map { article ->
-                article.copy(isBookmarked = article.id in bookmarkedIds)
-            }
-        }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = baseArticles,
-        )
+    val articles = repository.batchStream.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = emptyList(),
+    )
+    val meta = repository.metaStream.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = null,
+    )
     val readingMode = preferencesStore.readingMode().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = ReadingMode.CUSTOM_TABS,
     )
+    val refreshing = MutableStateFlow(false)
+
+    init {
+        viewModelScope.launch { repository.ensureInitialized() }
+    }
+
+    fun refresh() = viewModelScope.launch {
+        if (refreshing.value) return@launch
+        refreshing.value = true
+        try {
+            repository.refresh()
+        } finally {
+            refreshing.value = false
+        }
+    }
 
     fun toggleBookmark(article: Article) = viewModelScope.launch {
-        repository.toggleBookmarkForArticle(article)
+        repository.toggleBookmark(article)
     }
 }

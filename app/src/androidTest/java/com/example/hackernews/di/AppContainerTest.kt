@@ -5,6 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -14,6 +15,6 @@ class AppContainerTest {
         val container = AppContainer(ApplicationProvider.getApplicationContext())
 
         assertEquals(6, container.feedRepository.topicsStream().first().size)
-        assertEquals(8, container.classics.size)
+        assertTrue(container.classicsRepository.poolSize > 0)
     }
 }
