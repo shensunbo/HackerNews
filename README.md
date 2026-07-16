@@ -13,17 +13,13 @@ articles.
 
 ## Screenshots
 
-### Feed
+<p align="center">
+  <a href="docs/screenshots/feed.png"><img src="docs/screenshots/feed.png" alt="Feed" width="260"></a>
+  <a href="docs/screenshots/classics.png"><img src="docs/screenshots/classics.png" alt="Classics" width="260"></a>
+  <a href="docs/screenshots/profile.png"><img src="docs/screenshots/profile.png" alt="Profile" width="260"></a>
+</p>
 
-![Feed](docs/screenshots/feed.png)
-
-### Classics
-
-![Classics](docs/screenshots/classics.png)
-
-### Profile
-
-![Profile](docs/screenshots/profile.png)
+Click a screenshot to view the original resolution.
 
 ## Build
 
