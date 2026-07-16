@@ -29,6 +29,19 @@ Click a screenshot to view the original resolution.
 adb shell am start -n com.example.hackernews/.MainActivity
 ```
 
+## Release build
+
+Release APKs must be signed. Copy `keystore.properties.example` to the ignored
+`keystore.properties`, replace its placeholders with your local keystore values,
+then run:
+
+```bash
+./gradlew :app:assembleRelease
+```
+
+The signed APK is written to `app/build/outputs/apk/release/app-release.apk`.
+Never commit the keystore or `keystore.properties`.
+
 To manually regenerate the shipped Classics pool, see
 [`tools/classics-collector/README.md`](tools/classics-collector/README.md).
 
