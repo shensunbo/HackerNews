@@ -31,7 +31,7 @@ class FeedRepository(
     private val hn: RemoteArticleSource,
     private val rss: RemoteArticleSource,
     private val now: () -> Long = { System.currentTimeMillis() },
-) : FeedDataSource {
+) : FeedDataSource, Bookmarks {
     private val baseTopics: List<Topic> = configLoader.loadTopics()
 
     fun topicsStream(): Flow<List<Topic>> = prefs.topicPrefs().map { overrides ->
@@ -84,11 +84,11 @@ class FeedRepository(
         dao.setBookmarked(id, !current)
     }
 
-    fun bookmarkedIdsStream(): Flow<Set<String>> = dao.bookmarksStream().map { entities ->
+    override fun bookmarkedIdsStream(): Flow<Set<String>> = dao.bookmarksStream().map { entities ->
         entities.map { it.id }.toSet()
     }
 
-    suspend fun toggleBookmarkForArticle(article: Article) {
+    override suspend fun toggleBookmarkForArticle(article: Article) {
         val existing = dao.getById(article.id)
         if (existing == null) {
             dao.upsertPreservingBookmark(listOf(article.toEntity()), firstSeenAt = now())

@@ -2,6 +2,7 @@ package com.example.hackernews.ui.classics
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hackernews.data.classics.toArticle
 import com.example.hackernews.data.config.ClassicItem
 import com.example.hackernews.data.local.PreferencesStore
 import com.example.hackernews.data.remote.articleIdFor
@@ -13,17 +14,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-
-fun ClassicItem.toArticle(): Article = Article(
-    id = articleIdFor(url),
-    title = title,
-    url = url,
-    summary = summary,
-    source = "Must Read",
-    topicIds = topicId.takeIf { it.isNotBlank() }?.let(::listOf).orEmpty(),
-    publishedAt = 0L,
-    origin = ArticleOrigin.CLASSIC,
-)
 
 class ClassicsViewModel(
     private val repository: FeedRepository,
