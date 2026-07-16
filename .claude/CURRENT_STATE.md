@@ -11,8 +11,8 @@ Classics app-bar cleanup separate from documentation commits.
 
 ## Next action
 
-Visually verify, test, and commit the two pending Classics UI paths, then update
-this page with that commit and its exact verification evidence.
+Review and commit the two pending Classics UI paths; the automated checks and
+manual device visual check have been completed.
 
 ## Working tree
 
@@ -34,15 +34,15 @@ documentation.
 | Debug build | `./gradlew :app:assembleDebug` | pass | current worktree |
 | Connected tests | `./gradlew :app:connectedDebugAndroidTest` | pass: 23 tests, 0 failures, 2 skipped | current worktree on V2324HA / Android 15 |
 | Device install | `./gradlew :app:installDebug` | pass earlier on 2026-07-16 | current worktree |
-| Manual Classics app-bar check | post-install screenshot | pending; install returns the phone to its launcher | none |
+| Manual Classics app-bar check | installed app on V2324HA | pass: Feed, Classics, and Profile screenshots captured; no batch text and refresh icon visible | current worktree |
 
 The skipped connected tests are `AppNavTest` and `ProfileScreenIdleTest`; both are
 explicitly quarantined for a Compose/Espresso idling-sync hang on this vivo device.
 
 ## Known risks
 
-- The pending Classics app-bar change has build and automated-test coverage but
-  still needs its final in-app visual check.
+- The pending Classics app-bar change is verified but still uncommitted; do not
+  mix it with unrelated work.
 - RSS failures are aggregated without recording the failing URL and throwable.
 - First feed refresh can be slow because RSS feeds are fetched serially.
 

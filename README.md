@@ -11,6 +11,20 @@ articles.
 - Provides a 480-item offline Classics pool that changes only when the user
   requests the next batch.
 
+## Screenshots
+
+### Feed
+
+![Feed](docs/screenshots/feed.png)
+
+### Classics
+
+![Classics](docs/screenshots/classics.png)
+
+### Profile
+
+![Profile](docs/screenshots/profile.png)
+
 ## Build
 
 ```bash
