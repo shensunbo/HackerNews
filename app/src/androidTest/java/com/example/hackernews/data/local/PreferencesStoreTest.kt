@@ -2,6 +2,7 @@ package com.example.hackernews.data.local
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.hackernews.data.classics.ClassicsState
 import com.example.hackernews.domain.model.ReadingMode
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -54,5 +55,24 @@ class PreferencesStoreTest {
 
         store.setWeight("ai", -1.0f)
         assertEquals(0.0f, store.topicPrefs().first()["ai"]!!.weight)
+    }
+
+    @Test fun classicsState_defaultsToNullWhenUninitialized() = runBlocking {
+        assertNull(store.classicsState().first())
+    }
+
+    @Test fun classicsState_roundTripsAndSurvivesRestart() = runBlocking {
+        val state = ClassicsState(
+            poolVersion = 2,
+            seed = 42L,
+            round = 3,
+            cursor = 16,
+            batchIds = listOf("aa", "bb", "cc"),
+        )
+        store.saveClassicsState(state)
+
+        // a fresh store instance simulates a process restart reading the same DataStore
+        val restarted = PreferencesStore(ApplicationProvider.getApplicationContext())
+        assertEquals(state, restarted.classicsState().first())
     }
 }

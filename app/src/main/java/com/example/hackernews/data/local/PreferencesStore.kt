@@ -4,8 +4,13 @@ import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.hackernews.data.classics.ClassicsState
+import com.example.hackernews.data.classics.ClassicsStateCodec
+import com.example.hackernews.data.classics.ClassicsStateSource
 import com.example.hackernews.domain.model.ReadingMode
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -20,13 +25,20 @@ interface ReadingModeSource {
     fun readingMode(): Flow<ReadingMode>
 }
 
-class PreferencesStore(private val context: Context) : TopicPreferencesSource, ReadingModeSource {
+class PreferencesStore(private val context: Context) :
+    TopicPreferencesSource, ReadingModeSource, ClassicsStateSource {
 
     data class TopicPref(val enabled: Boolean?, val weight: Float?)
 
     private val readingModeKey = stringPreferencesKey("reading_mode")
     private fun enabledKey(id: String) = booleanPreferencesKey("topic_enabled_$id")
     private fun weightKey(id: String) = floatPreferencesKey("topic_weight_$id")
+
+    private val classicsPoolVersionKey = intPreferencesKey(ClassicsStateCodec.KEY_POOL_VERSION)
+    private val classicsSeedKey = longPreferencesKey(ClassicsStateCodec.KEY_SEED)
+    private val classicsRoundKey = intPreferencesKey(ClassicsStateCodec.KEY_ROUND)
+    private val classicsCursorKey = intPreferencesKey(ClassicsStateCodec.KEY_CURSOR)
+    private val classicsBatchIdsKey = stringPreferencesKey(ClassicsStateCodec.KEY_BATCH_IDS)
 
     override fun readingMode(): Flow<ReadingMode> = context.dataStore.data.map { p ->
         when (p[readingModeKey]) {
@@ -59,6 +71,26 @@ class PreferencesStore(private val context: Context) : TopicPreferencesSource, R
     }
     suspend fun setWeight(topicId: String, weight: Float) {
         context.dataStore.edit { it[weightKey(topicId)] = weight.coerceIn(0f, 2f) }
+    }
+
+    override fun classicsState(): Flow<ClassicsState?> = context.dataStore.data.map { p ->
+        ClassicsStateCodec.decode(
+            poolVersion = p[classicsPoolVersionKey],
+            seed = p[classicsSeedKey],
+            round = p[classicsRoundKey],
+            cursor = p[classicsCursorKey],
+            batchIds = p[classicsBatchIdsKey],
+        )
+    }
+
+    override suspend fun saveClassicsState(state: ClassicsState) {
+        context.dataStore.edit {
+            it[classicsPoolVersionKey] = state.poolVersion
+            it[classicsSeedKey] = state.seed
+            it[classicsRoundKey] = state.round
+            it[classicsCursorKey] = state.cursor
+            it[classicsBatchIdsKey] = ClassicsStateCodec.encodeBatchIds(state.batchIds)
+        }
     }
 
     suspend fun clear() {
