@@ -32,8 +32,8 @@ fun main(args: Array<String>): Unit = runBlocking {
     val validTopicIds = topics.map { it.id }.toSet()
 
     val client = OkHttpClient.Builder()
-        .connectTimeout(15, TimeUnit.SECONDS)
-        .readTimeout(20, TimeUnit.SECONDS)
+        .connectTimeout(10, TimeUnit.SECONDS)
+        .readTimeout(10, TimeUnit.SECONDS)
         .build()
     val parser = RssParserBuilder().build()
 
@@ -41,8 +41,8 @@ fun main(args: Array<String>): Unit = runBlocking {
     val rss = fetchRssItems(parser, topicsWithFeeds)
     println("  ${rss.size} raw RSS items")
 
-    println("fetching Hacker News best stories…")
-    val hn = fetchHnItems(client, topics, hnLimit = 240)
+    println("fetching Hacker News best + top stories…")
+    val hn = fetchHnItems(client, topics, hnLimit = 500)
     println("  ${hn.size} raw HN items")
 
     val cleaned = dedupeAndClean(rss + hn, validTopicIds).take(opts.target)
@@ -103,16 +103,24 @@ private suspend fun fetchRssItems(
     }.awaitAll().flatten()
 }
 
+private suspend fun fetchHnStoryIds(client: OkHttpClient, endpoint: String): List<Long> =
+    runCatching {
+        val body = client.newCall(
+            okhttp3.Request.Builder().url("https://hacker-news.firebaseio.com/v0/$endpoint").build(),
+        ).execute().use { it.body?.string() }
+        parseJson.decodeFromString<List<Long>>(body ?: "[]")
+    }.getOrDefault(emptyList())
+
 private suspend fun fetchHnItems(
     client: OkHttpClient,
     topics: List<CollectorTopic>,
     hnLimit: Int,
 ): List<CollectorItem> = coroutineScope {
     val ids: List<Long> = runCatching {
-        val body = client.newCall(
-            okhttp3.Request.Builder().url("https://hacker-news.firebaseio.com/v0/beststories.json").build(),
-        ).execute().use { it.body?.string() }
-        parseJson.decodeFromString<List<Long>>(body ?: "[]")
+        // union best + top stories (heavy overlap) for a wider candidate set
+        val best = fetchHnStoryIds(client, "beststories.json")
+        val top = fetchHnStoryIds(client, "topstories.json")
+        (best + top).distinct()
     }.getOrDefault(emptyList())
 
     ids.take(hnLimit).map { id ->
