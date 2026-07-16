@@ -6,12 +6,13 @@ verification_code_base: `f517c5d`
 
 ## Current objective
 
-Prepare the next versioned GitHub Release from the verified signed APK.
+Maintain the published signed Release and start the next feature or bugfix from
+the verified `v1.0.0` baseline.
 
 ## Next action
 
-Set a release version/tag, upload the signed APK to GitHub Releases, and retain
-the keystore backup outside the repository.
+For a future release, increment `versionCode` and `versionName`, rebuild and
+verify the signed APK, then publish a new GitHub Release tag.
 
 ## Working tree
 
@@ -27,6 +28,7 @@ and `keystore.properties` are intentionally ignored and must never be staged.
 | Connected tests | `./gradlew :app:connectedDebugAndroidTest` | pass: 23 tests, 0 failures, 2 skipped | `af4ddc8` on V2324HA / Android 15 |
 | Signed Release build | `./gradlew :app:assembleRelease` + `apksigner verify` | pass: v2 signature, one 4096-bit RSA signer | `f517c5d` |
 | Device install | `adb install app/build/outputs/apk/release/app-release.apk` | pass: installed and launched on V2324HA / Android 15 |
+| GitHub Release | `gh release create v1.0.0` | pass: APK and SHA-256 assets uploaded | `v1.0.0` |
 
 The skipped connected tests are `AppNavTest` and `ProfileScreenIdleTest`; both are
 explicitly quarantined for a Compose/Espresso idling-sync hang on this vivo device.
