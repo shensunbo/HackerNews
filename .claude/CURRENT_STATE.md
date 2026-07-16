@@ -1,48 +1,45 @@
 # Current Project State
 
-recorded_at: `2026-07-16T13:34:19+08:00`
-source_commit: `a3c5f9a`
-verification_code_base: `a3c5f9a + uncommitted Classics app-bar UI change`
+recorded_at: `2026-07-16T14:10:00+08:00`
+source_commit: `f517c5d`
+verification_code_base: `f517c5d`
 
 ## Current objective
 
-Finish the documentation handoff after the Classics pool refresh; keep the pending
-Classics app-bar cleanup separate from documentation commits.
+Validate the newly signed Release APK on the device without losing data by
+accident.
 
 ## Next action
 
-Review and commit the two pending Classics UI paths; the automated checks and
-manual device visual check have been completed.
+Choose whether to uninstall the currently installed Debug app (which clears its
+local data), then install and manually verify the signed Release APK.
 
 ## Working tree
 
-```text
-## main
- M app/src/main/java/com/example/hackernews/ui/classics/ClassicsScreen.kt
-?? app/src/main/res/drawable/
-```
-
-Both paths are one active UI change: remove the batch-progress label and replace
-the textual refresh action with a refresh icon. Preserve them while working on
-documentation.
+The source worktree was clean at `f517c5d`. The local `keystore/readlater-release.jks`
+and `keystore.properties` are intentionally ignored and must never be staged.
 
 ## Verification matrix
 
 | Scope | Command / check | Result | Code base |
 | --- | --- | --- | --- |
-| JVM unit tests | `./gradlew :app:testDebugUnitTest` | pass | current worktree |
-| Debug build | `./gradlew :app:assembleDebug` | pass | current worktree |
-| Connected tests | `./gradlew :app:connectedDebugAndroidTest` | pass: 23 tests, 0 failures, 2 skipped | current worktree on V2324HA / Android 15 |
-| Device install | `./gradlew :app:installDebug` | pass earlier on 2026-07-16 | current worktree |
-| Manual Classics app-bar check | installed app on V2324HA | pass: Feed, Classics, and Profile screenshots captured; no batch text and refresh icon visible | current worktree |
+| JVM unit tests | `./gradlew :app:testDebugUnitTest` | pass | `af4ddc8` |
+| Debug build | `./gradlew :app:assembleDebug` | pass | `af4ddc8` |
+| Connected tests | `./gradlew :app:connectedDebugAndroidTest` | pass: 23 tests, 0 failures, 2 skipped | `af4ddc8` on V2324HA / Android 15 |
+| Signed Release build | `./gradlew :app:assembleRelease` + `apksigner verify` | pass: v2 signature, one 4096-bit RSA signer | `f517c5d` |
+| Device install | Debug APK installed and visually checked; Release install pending | Release: none |
 
 The skipped connected tests are `AppNavTest` and `ProfileScreenIdleTest`; both are
 explicitly quarantined for a Compose/Espresso idling-sync hang on this vivo device.
 
 ## Known risks
 
-- The pending Classics app-bar change is verified but still uncommitted; do not
-  mix it with unrelated work.
+- The phone currently has a Debug-signed app. Installing the same package signed
+  by the new Release key requires uninstalling Debug first, which clears its
+  local app data.
+- The release key is the app's long-term update identity. Back up the ignored
+  keystore and `keystore.properties` in a secure password manager or encrypted
+  storage; never commit either file.
 - RSS failures are aggregated without recording the failing URL and throwable.
 - First feed refresh can be slow because RSS feeds are fetched serially.
 
