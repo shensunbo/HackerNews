@@ -24,3 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "hackerNews"
 include(":app")
+include(":tools:classics-collector")
