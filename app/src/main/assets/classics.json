@@ -1,9 +1,10 @@
 {
+  "poolVersion": 2,
   "items": [
     {
       "title": "The Twelve-Factor App",
       "url": "https://12factor.net",
-      "summary": "The twelve general rules for cloud-native apps.",
+      "summary": "Twelve general rules for building cloud-native SaaS apps.",
       "topicId": "backend"
     },
     {
@@ -15,38 +16,146 @@
     {
       "title": "Big Ball of Mud",
       "url": "http://www.laputan.org/mud/",
-      "summary": "A classic paper on runaway architecture.",
+      "summary": "A classic paper on runaway architectures and how systems decay.",
       "topicId": "backend"
+    },
+    {
+      "title": "On the Criteria To Be Used in Decomposing Systems into Modules",
+      "url": "https://www.win.tue.nl/~wstomv/edu/2ip30/references/criteria_for_modularization.pdf",
+      "summary": "Parnas's foundational paper on information hiding and modularization.",
+      "topicId": "backend"
+    },
+    {
+      "title": "The Log: What every software engineer should know about real-time data's unifying abstraction",
+      "url": "https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying",
+      "summary": "Why an append-only log is the unifying abstraction behind distributed systems.",
+      "topicId": "backend"
+    },
+    {
+      "title": "How to Design a Good API and Why it Matters",
+      "url": "https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/32713.pdf",
+      "summary": "Joshua Bloch's rules for APIs that are easy to use and hard to misuse.",
+      "topicId": "backend"
+    },
+    {
+      "title": "CAP Twelve Years Later: How the \"Rules\" Have Changed",
+      "url": "https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/",
+      "summary": "Brewer revisits the CAP theorem and the practical partition-tolerant trade-offs.",
+      "topicId": "backend"
+    },
+    {
+      "title": "Thinking in React",
+      "url": "https://react.dev/learn/thinking-in-react",
+      "summary": "The canonical walkthrough of building UIs the React way, step by step.",
+      "topicId": "frontend"
+    },
+    {
+      "title": "A Complete Guide to Flexbox",
+      "url": "https://css-tricks.com/snippets/css/a-guide-to-flexbox/",
+      "summary": "Reference for every flexbox property with live examples.",
+      "topicId": "frontend"
+    },
+    {
+      "title": "HTTP Overview",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview",
+      "summary": "MDN's primer on HTTP: messages, methods, status codes, and connections.",
+      "topicId": "frontend"
     },
     {
       "title": "The Law of Leaky Abstractions",
       "url": "https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/",
-      "summary": "Every abstraction leaks somewhere.",
+      "summary": "Every abstraction leaks somewhere; know the layer beneath.",
       "topicId": "languages"
     },
     {
       "title": "Parse, Don't Validate",
       "url": "https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/",
-      "summary": "Use types to keep illegal states unrepresentable.",
+      "summary": "Use types to make illegal states unrepresentable instead of runtime checks.",
       "topicId": "languages"
     },
     {
-      "title": "Falsehoods Programmers Believe About Names",
-      "url": "https://www.kalzumeus.com/2010/06/17/falsehoods-programmers-believe-about-names/",
-      "summary": "False assumptions programmers hold about names.",
-      "topicId": "career"
+      "title": "What Every Computer Scientist Should Know About Floating-Point Arithmetic",
+      "url": "https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html",
+      "summary": "Goldberg's reference on IEEE 754 arithmetic and its pitfalls.",
+      "topicId": "languages"
     },
     {
       "title": "What Every Programmer Should Know About Memory",
       "url": "https://people.freebsd.org/~lstewart/articles/cpumemory.pdf",
-      "summary": "A deep dive on the memory hierarchy and performance.",
+      "summary": "A deep dive on the memory hierarchy and its performance impact.",
       "topicId": "languages"
     },
     {
-      "title": "On the Criteria To Be Used in Decomposing Systems into Modules",
-      "url": "https://www.win.tue.nl/~wstomv/edu/2ip30/references/criteria_for_modularization.pdf",
-      "summary": "Parnas's foundational paper on modularization.",
-      "topicId": "backend"
+      "title": "Containers are a Linux thing",
+      "url": "https://jvns.ca/blog/2021/11/24/containers-are-a-linux-thing/",
+      "summary": "Julia Evans unpacks how containers are built from namespaces and cgroups.",
+      "topicId": "languages"
+    },
+    {
+      "title": "Files are fraught with peril",
+      "url": "https://danluu.com/deconstruct-files/",
+      "summary": "Dan Luu on the many ways filesystems surprise programmers.",
+      "topicId": "languages"
+    },
+    {
+      "title": "The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About Unicode and Character Sets (No Excuses!)",
+      "url": "https://www.joelonsoftware.com/2003/10/08/the-absolute-minimum-every-software-developer-absolutely-positively-must-know-about-unicode-and-character-sets-no-excuses/",
+      "summary": "Joel Spolsky's primer on character sets and encoding.",
+      "topicId": "languages"
+    },
+    {
+      "title": "Embeddings: What they are and why they matter",
+      "url": "https://simonwillison.net/2023/Oct/23/embeddings/",
+      "summary": "Simon Willison's plain-language intro to vector embeddings.",
+      "topicId": "ai"
+    },
+    {
+      "title": "The Illustrated Transformer",
+      "url": "https://jalammar.github.io/illustrated-transformer/",
+      "summary": "A visual, step-by-step explanation of the Transformer architecture.",
+      "topicId": "ai"
+    },
+    {
+      "title": "The Unreasonable Effectiveness of Recurrent Neural Networks",
+      "url": "http://karpathy.github.io/2015/05/21/rnn-effectiveness/",
+      "summary": "Karpathy on char-RNNs and what sequence models learn.",
+      "topicId": "ai"
+    },
+    {
+      "title": "Monitoring Distributed Systems",
+      "url": "https://sre.google/sre-book/monitoring-distributed-systems/",
+      "summary": "Google SRE's chapter on latency, alerting, and monitoring philosophy.",
+      "topicId": "devops"
+    },
+    {
+      "title": "Pods",
+      "url": "https://kubernetes.io/docs/concepts/workloads/pods/",
+      "summary": "The Kubernetes docs on pods: the smallest deployable compute unit.",
+      "topicId": "devops"
+    },
+    {
+      "title": "Docker overview",
+      "url": "https://docs.docker.com/get-started/overview/",
+      "summary": "The core concepts of Docker: images, containers, and the engine.",
+      "topicId": "devops"
+    },
+    {
+      "title": "The Joel Test: 12 Steps to Better Code",
+      "url": "https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/",
+      "summary": "A quick 12-question heuristic for judging a team's engineering hygiene.",
+      "topicId": "career"
+    },
+    {
+      "title": "No Silver Bullet: Essence and Accidents of Software Engineering",
+      "url": "https://en.wikipedia.org/wiki/No_Silver_Bullet",
+      "summary": "Brooks's argument that software's essential complexity admits no silver bullet.",
+      "topicId": "career"
+    },
+    {
+      "title": "Falsehoods Programmers Believe About Names",
+      "url": "https://www.kalzumeus.com/2010/06/17/falsehoods-programmers-believe-about-names/",
+      "summary": "Common false assumptions programmers hold about people's names.",
+      "topicId": "career"
     }
   ]
 }
