@@ -1,57 +1,53 @@
 # AGENTS.md
 
-## Required Context
+## Start here
 
-Before changing code, read these files in order:
+Before changing code, read in this order:
 
-1. `CLAUDE.md`
-2. `.claude/spec.md`
-3. `.claude/2026-07-15-dev-news-app-design.md`
-4. `.claude/2026-07-15-dev-news-app-ui-design.md`
-5. `.claude/2026-07-15-dev-news-app-plan.md`
-6. `.claude/2026-07-15-dev-news-app-plan-review.md`
+1. `AGENTS.md`
+2. `.claude/CURRENT_STATE.md`
+3. `.claude/ARCHITECTURE.md`
+4. The source, tests, and configuration files directly related to the task.
 
-The plan review overrides conflicting examples or instructions in the original
-implementation plan. Fix applicable P0/P1 findings in existing code before
-starting the next numbered task. Apply findings for not-yet-created subsystems
-when those subsystems are implemented.
+Read `.claude/archive/` only when a current document links to a historical
+decision or the task specifically concerns initial-release behavior.
 
-## Determine Progress
+## Source of truth
 
-- Inspect `git status`, `git log`, existing source, and tests before deciding
-  which task is next. Do not rely only on unchecked boxes in the plan.
-- Preserve all existing and uncommitted work. Never revert changes that are not
-  part of the current task.
-- If a completed task conflicts with the review, add a focused regression test
-  and correct it before continuing.
+1. Current source code and tests.
+2. `CURRENT_STATE.md` for a handoff snapshot, unless application source changed
+   since its `source_commit`.
+3. `ARCHITECTURE.md` for stable constraints.
+4. Archived documents for history only.
 
-## Implementation Workflow
+## Workflow
 
-- Continue implementation directly; do not stop after proposing another plan.
-- Use TDD for behavior changes: write a failing test, implement the smallest
-  correct change, then run the relevant test suite.
-- After each logical task, run its focused tests and `./gradlew
-  :app:assembleDebug`. Run broader tests when shared behavior changes.
-- Diagnose and fix build or test failures. Do not bypass, disable, or silently
-  ignore failing verification.
-- Keep changes scoped to the current task and follow the existing Kotlin,
-  Compose, Room, DataStore, and manual-DI patterns.
+- Inspect `git status`, `git log`, relevant source, and relevant tests before
+  selecting work.
+- Preserve uncommitted changes outside the current task. Never use destructive
+  Git commands.
+- Use TDD for behavior changes when practical: a focused failing test, the
+  smallest fix, then a passing focused test.
+- After each logical task, run focused tests and `./gradlew :app:assembleDebug`.
+- Before reporting a user-visible change complete, run full JVM tests, connected
+  tests on an available device, and the applicable manual device path. Record
+  unavailable or quarantined coverage rather than claiming it passed.
+- Update `.claude/CURRENT_STATE.md` at a meaningful handoff or after a
+  user-visible code commit; documentation-only commits do not require an update.
 
-## Git And Commands
+## Git discipline
 
-- Run `./gradlew`, `git add`, and `git commit` directly when needed; configured
-  Codex prefix rules are expected to handle approval for these commands.
-- Create one English conventional commit for each complete logical task.
-- Review the staged diff before committing and do not include unrelated files.
-- Never run `git push` automatically.
-- Do not use destructive Git commands or remove user changes.
+- Use one English conventional commit per completed logical task.
+- Review the staged diff and stage explicit paths only; never use `git add -A`
+  in a shared dirty worktree.
+- Never push automatically.
 
-## Completion
+## Commands
 
-- Continue through the remaining tasks until the project is complete or a real
-  blocker requires user input.
-- Before reporting completion, run the full unit test suite, connected tests on
-  the available device, a debug build, and the end-to-end checks defined in the
-  implementation plan.
-- Report commands run, verification results, remaining risks, and any work that
-  could not be verified.
+```bash
+./gradlew :app:testDebugUnitTest
+./gradlew :app:connectedDebugAndroidTest
+./gradlew :app:assembleDebug
+./gradlew :app:installDebug
+adb shell am start -n com.example.hackernews/.MainActivity
+```
