@@ -40,7 +40,8 @@ then run:
 ```
 
 The signed APK is written to `app/build/outputs/apk/release/app-release.apk`.
-Never commit the keystore or `keystore.properties`.
+Never commit the keystore or `keystore.properties`. For device validation and
+GitHub publishing, follow the [Release process](.claude/RELEASE_PROCESS.md).
 
 To manually regenerate the shipped Classics pool, see
 [`tools/classics-collector/README.md`](tools/classics-collector/README.md).

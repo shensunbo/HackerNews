@@ -11,8 +11,9 @@ the verified `v1.0.0` baseline.
 
 ## Next action
 
-For a future release, increment `versionCode` and `versionName`, rebuild and
-verify the signed APK, then publish a new GitHub Release tag.
+For a future release, follow `.claude/RELEASE_PROCESS.md`: increment
+`versionCode` and `versionName`, rebuild and verify the signed APK, then publish
+a new GitHub Release tag.
 
 ## Working tree
 

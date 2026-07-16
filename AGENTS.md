@@ -12,6 +12,9 @@ Before changing code, read in this order:
 Read `.claude/archive/` only when a current document links to a historical
 decision or the task specifically concerns initial-release behavior.
 
+For a signed Release build or GitHub publication, also read
+`.claude/RELEASE_PROCESS.md` before acting.
+
 ## Source of truth
 
 1. Current source code and tests.
